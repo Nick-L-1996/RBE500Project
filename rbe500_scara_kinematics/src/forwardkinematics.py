@@ -45,6 +45,7 @@ class FK:
         phi = 0
         forceOrientation = 1
 
+        # got from www.gregslabaugh.net/publications/euler.pdf
         if(row31 != 1):
 
             if(forceOrientation):
