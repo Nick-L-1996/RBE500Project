@@ -5,7 +5,7 @@ import rospy
 
 class FK:
     def __init__(self):
-        self._getQVals = rospy.Subscriber('/qVals', qVal, self.doForwardKin, queue_size=1)
+        self.server()
 
     def server(self):
         serviceFK = rospy.Service("ScaraFK", forwardkinService, self.doForwardKin)
