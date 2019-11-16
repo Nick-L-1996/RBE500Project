@@ -47,7 +47,7 @@ class FK:
 
         # got from www.gregslabaugh.net/publications/euler.pdf
         if(row31 != 1):
-
+            theta = -math.asin(row31)
             if(forceOrientation):
                 theta = -math.asin(row31)
             else:
