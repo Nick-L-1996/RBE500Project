@@ -18,9 +18,14 @@ class FK:
         L2 = 0.2
         L3 = 0.1
 
-        q1 = math.radians(data.q1)
-        q2 = math.radians(data.q2)
+        q1 = data.q1
+        q2 = data.q2
         q3 = data.q3
+        print("Q Values")
+        print(q1)
+        print(q2)
+        print(q3)
+
         # This code calculates each value of the FK
         # using equations found in matlab, also included in the submission
         row11 = math.cos(q1) * math.cos(q2) - math.sin(q1) * math.sin(q2)

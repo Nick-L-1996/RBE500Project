@@ -16,6 +16,9 @@
     <!-- load the controllers -->
     <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
         output="screen" ns="/scara" args="joint_state_controller"/>
+    <include file="$(find urdf_tutorial)/launch/display.launch">
+        <arg name="model" value="$(find rbe500_scara_urdf)/urdf/ScaraRobot.xml"/>
+    </include>
 
     <node name = "ScaraFKin" pkg="rbe500_scara_kinematics" type="forwardkinematics.py"/>
     <node name = "ScaraInverseKin" pkg="rbe500_scara_kinematics" type="inverseKinematics.py"/>
