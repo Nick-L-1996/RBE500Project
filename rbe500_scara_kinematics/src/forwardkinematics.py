@@ -3,6 +3,7 @@ import math
 from rbe500_scara_kinematics.srv import forwardkinService, forwardkinServiceResponse
 import rospy
 
+
 class FK:
     def __init__(self):
         self.server()
@@ -11,6 +12,12 @@ class FK:
         serviceFK = rospy.Service("ScaraFK", forwardkinService, self.doForwardKin)
 
     def doForwardKin(self, data):
+        # Robot Parameters
+        L1Vertical = 0.2
+        L1Horizontal = 0.2
+        L2 = 0.2
+        L3 = 0.1
+
         q1 = math.radians(data.q1)
         q2 = math.radians(data.q2)
         q3 = data.q3
@@ -19,17 +26,17 @@ class FK:
         row11 = math.cos(q1) * math.cos(q2) - math.sin(q1) * math.sin(q2)
         row12 = -math.cos(q1) * math.sin(q2) - math.cos(q2) * math.sin(q1)
         row13 = 0
-        row14 = (math.cos(q1) + math.cos(q1) * math.cos(q2) - math.sin(q1) * math.sin(q2)) / 5
+        row14 = L1Horizontal*math.cos(q1)+L2*(math.cos(q1+q2)) #x
 
         row21 = math.cos(q1) * math.sin(q2) + math.cos(q2) * math.sin(q1)
         row22 = math.cos(q1) * math.cos(q2) - math.sin(q1) * math.sin(q2)
         row23 = 0
-        row24 = (math.sin(q1) + math.cos(q1) * math.sin(q2) + math.sin(q1) * math.cos(q2)) / 5
+        row24 = L1Horizontal*math.sin(q1)+L2*(math.sin(q1+q2)) #y
 
         row31 = 0
         row32 = 0
         row33 = 1
-        row34 = q3 + 1 / 10
+        row34 = q3 + L1Vertical-L3 #z
 
         row41 = 0
         row42 = 0
