@@ -8,15 +8,15 @@
         </plugin>
     </gazebo>
     <link name="base_link">
-         <collision>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <box size="0.5 0.5 0.2"/>
-      </geometry>
-    </collision>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.5 0.5 0.2"/>
+            </geometry>
+        </collision>
         <visual>
             <geometry>
-                <box size="0.5, 0.5, 0.2"/>
+                <box size="0.5 0.5 0.2"/>
             </geometry>
         </visual>
         <inertial>
@@ -51,7 +51,7 @@
         <parent link="base_link"></parent>
         <child link="LinkOne"></child>
         <origin xyz="0 0 .15"></origin>
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
     <link name="LinkTwo">
         <visual>
@@ -60,14 +60,14 @@
             </geometry>
             <origin rpy="0 1.57075 0" xyz="0.3 0 1.2"></origin>
         </visual>
-         <inertial>
-      <origin xyz="0 0 1" rpy="0 0 0"/>
-      <mass value="1"/>
-      <inertia
-        ixx="1.0" ixy="0.0" ixz="0.0"
-        iyy="1.0" iyz="0.0"
-        izz="1.0"/>
-    </inertial>
+        <inertial>
+            <origin xyz="0 0 1" rpy="0 0 0"/>
+            <mass value="1"/>
+            <inertia
+                    ixx="1.0" ixy="0.0" ixz="0.0"
+                    iyy="1.0" iyz="0.0"
+                    izz="1.0"/>
+        </inertial>
     </link>
     <joint name="JOneToJTwo" type="fixed">
         <parent link="LinkOne"></parent>
@@ -83,14 +83,14 @@
             </geometry>
             <origin rpy="0 0 0" xyz="0 0 -0.2"></origin>
         </visual>
-         <inertial>
-      <origin xyz="0 0 1" rpy="0 0 0"/>
-      <mass value="1"/>
-      <inertia
-        ixx="1.0" ixy="0.0" ixz="0.0"
-        iyy="1.0" iyz="0.0"
-        izz="1.0"/>
-    </inertial>
+        <inertial>
+            <origin xyz="0 0 1" rpy="0 0 0"/>
+            <mass value="1"/>
+            <inertia
+                    ixx="1.0" ixy="0.0" ixz="0.0"
+                    iyy="1.0" iyz="0.0"
+                    izz="1.0"/>
+        </inertial>
     </link>
     <joint name="JTwoToJThree" type="revolute">
         <axis xyz="0 0 1"/>
@@ -98,7 +98,7 @@
         <parent link="LinkTwo"></parent>
         <child link="LinkThree"></child>
         <origin xyz="1 0 1.4"></origin>
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
     <link name="LinkFour">
         <visual>
@@ -107,14 +107,14 @@
             </geometry>
             <origin rpy="0 1.57075 0" xyz="0 0 -0.2"></origin>
         </visual>
-         <inertial>
-      <origin xyz="0 0 1" rpy="0 0 0"/>
-      <mass value="1"/>
-      <inertia
-        ixx="1.0" ixy="0.0" ixz="0.0"
-        iyy="1.0" iyz="0.0"
-        izz="1.0"/>
-    </inertial>
+        <inertial>
+            <origin xyz="0 0 1" rpy="0 0 0"/>
+            <mass value="1"/>
+            <inertia
+                    ixx="1.0" ixy="0.0" ixz="0.0"
+                    iyy="1.0" iyz="0.0"
+                    izz="1.0"/>
+        </inertial>
     </link>
     <joint name="JThreeToJFour" type="fixed">
 
@@ -126,18 +126,18 @@
     <link name="LinkFive">
         <visual>
             <geometry>
-                <box size="0.5, 0.5, 0.5"/>
+                <box size="0.5 0.5 0.5"/>
             </geometry>
             <origin rpy="0 3.14 0" xyz="0 0 0"></origin>
         </visual>
-         <inertial>
-      <origin xyz="0 0 1" rpy="0 0 0"/>
-      <mass value="1"/>
-      <inertia
-        ixx="1.0" ixy="0.0" ixz="0.0"
-        iyy="1.0" iyz="0.0"
-        izz="1.0"/>
-    </inertial>
+        <inertial>
+            <origin xyz="0 0 1" rpy="0 0 0"/>
+            <mass value="1"/>
+            <inertia
+                    ixx="1.0" ixy="0.0" ixz="0.0"
+                    iyy="1.0" iyz="0.0"
+                    izz="1.0"/>
+        </inertial>
     </link>
     <joint name="JFourToJFive" type="fixed">
 
@@ -149,18 +149,18 @@
     <link name="LinkSix">
         <visual>
             <geometry>
-                <box size="0.3, 0.3, 0.3"/>
+                <box size="0.3 0.3 0.3"/>
             </geometry>
             <origin rpy="0 0 0" xyz="0 0 0"></origin>
         </visual>
-         <inertial>
-      <origin xyz="0 0 1" rpy="0 0 0"/>
-      <mass value="1"/>
-      <inertia
-        ixx="1.0" ixy="0.0" ixz="0.0"
-        iyy="1.0" iyz="0.0"
-        izz="1.0"/>
-    </inertial>
+        <inertial>
+            <origin xyz="0 0 1" rpy="0 0 0"/>
+            <mass value="1"/>
+            <inertia
+                    ixx="1.0" ixy="0.0" ixz="0.0"
+                    iyy="1.0" iyz="0.0"
+                    izz="1.0"/>
+        </inertial>
     </link>
     <joint name="JFiveToJSix" type="prismatic">
         <limit effort="1000.0" lower="0.0" upper="0.6" velocity="0.5"/>
@@ -168,41 +168,41 @@
         <parent link="LinkFive"></parent>
         <child link="LinkSix"></child>
         <origin xyz="0 0 -.4"></origin>
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
 
     <!-- Controller Stuff -->
-  <transmission name="tran1">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="baseToJOne">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="motor1">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
+    <transmission name="tran1">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="baseToJOne">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="motor1">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
 
-  <transmission name="tran2">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="JTwoToJThree">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="motor2">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
+    <transmission name="tran2">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="JTwoToJThree">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="motor2">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
 
-  <transmission name="tran3">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="JFiveToJSix">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="motor3">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
+    <transmission name="tran3">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="JFiveToJSix">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="motor3">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
 
 </robot>
