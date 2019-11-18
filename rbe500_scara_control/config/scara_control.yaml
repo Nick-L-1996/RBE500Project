@@ -18,4 +18,4 @@ scara:
   joint3_position_controller:
     type: effort_controllers/JointPositionController
     joint: JFiveToJSix
-    pid: {p: 200.0, i: 0.01, d: 100.0}
+    pid: {p: 800.0, i: 1, d: 80.0}

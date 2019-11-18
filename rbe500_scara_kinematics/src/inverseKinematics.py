@@ -13,10 +13,10 @@ class inverseKin:
 
     def inverseKin(self, data):
         #Robot Parameters
-        L1Vertical = 0.2
-        L1Horizontal = 0.2
-        L2 = 0.2
-        L3=0.1
+        L1Vertical = 1.4
+        L1Horizontal = 1
+        L2 = 1.35
+        L3=0.4
         q2 = 0
         print("Positions")
         print(data.x)
@@ -33,7 +33,8 @@ class inverseKin:
         if data.elbow==1:
             q2 = -q2
         q1 = math.atan2(data.y, data.x)-math.atan2(L2*math.sin(q2), L1Horizontal+L2*math.cos(q2))
-        q3 = data.z-L1Vertical+L3
+        q3 = L1Vertical-L3-data.z
+
 
         return inversekinServiceResponse(q1, q2, q3)
 

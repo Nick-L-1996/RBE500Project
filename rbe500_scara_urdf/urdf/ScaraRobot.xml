@@ -11,12 +11,12 @@
         <collision>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
-                <box size="0.5 0.5 0.2"/>
+                <box size="0.5 0.5 0.3"/>
             </geometry>
         </collision>
         <visual>
             <geometry>
-                <box size="0.5 0.5 0.2"/>
+                <box size="0.5 0.5 0.3"/>
             </geometry>
         </visual>
         <inertial>

@@ -13,10 +13,10 @@ class FK:
 
     def doForwardKin(self, data):
         # Robot Parameters
-        L1Vertical = 0.2
-        L1Horizontal = 0.2
-        L2 = 0.2
-        L3 = 0.1
+        L1Vertical = 1.4
+        L1Horizontal = 1
+        L2 = 1.35
+        L3 = 0.4
 
         q1 = data.q1
         q2 = data.q2
@@ -41,7 +41,7 @@ class FK:
         row31 = 0
         row32 = 0
         row33 = 1
-        row34 = q3 + L1Vertical-L3 #z
+        row34 = L1Vertical-L3-q3 #z
 
         row41 = 0
         row42 = 0
