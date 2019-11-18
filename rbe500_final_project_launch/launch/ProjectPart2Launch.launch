@@ -19,6 +19,7 @@
 
     <node name = "ScaraFKin" pkg="rbe500_scara_kinematics" type="forwardkinematics.py"/>
     <node name = "ScaraInverseKin" pkg="rbe500_scara_kinematics" type="inverseKinematics.py"/>
+    <node name = "P2App" pkg="rbe500_scara_control" type="ProjectP2ControllerUI.py"/>
 
 
 </launch>

@@ -71,7 +71,7 @@ class P2Gui(QtWidgets.QMainWindow):
 
 class PlotCanvas(FigureCanvas):
 
-    def __init__(self, parent=None, width=6, height=4.8, dpi=95):
+    def __init__(self, parent=None, width=6.7, height=4.8, dpi=100):
         fig = Figure(figsize=(width, height), dpi=dpi)
         self.axes = fig.add_subplot(111)
 
@@ -89,9 +89,9 @@ class PlotCanvas(FigureCanvas):
         line = desired*np.ones(len(time))
         self.axes.plot(time, line, 'r-', label="Desired Position")
         self.axes.plot(time, position, 'b-', label="Actual Position")
-        self.axes.set_xlabel("Data Points")
-        self.axes.set_ylabel("Confidence")
-        self.axes.set_title("Confidence of Prediction in Real Time")
+        self.axes.set_xlabel("Time (s)")
+        self.axes.set_ylabel("Z Position (meters)")
+        self.axes.set_title("Plot of Joint 3 Movement")
         self.draw()
 
 
