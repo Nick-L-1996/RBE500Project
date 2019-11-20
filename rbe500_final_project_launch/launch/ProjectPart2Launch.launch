@@ -1,0 +1,25 @@
+<launch>
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+
+        <arg name="paused" value="false"/>
+        <arg name="use_sim_time" value="true"/>
+        <arg name="gui" value="true"/>
+        <arg name="recording" value="false"/>
+        <arg name="debug" value="false"/>
+    </include>
+    <node name = "spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-file $(find rbe500_scara_urdf)/urdf/ScaraRobot.xml -urdf -model scara"/>
+    <param name="robot_description" command="cat $(find rbe500_scara_urdf)/urdf/ScaraRobot.xml"/>
+
+    <!-- Load joint controller configurations from YAML file to parameter server -->
+     <rosparam file="$(find rbe500_scara_control)/config/scara_control.yaml" command="load"/>
+
+    <!-- load the controllers -->
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+        output="screen" ns="/scara" args="joint1_position_controller joint2_position_controller joint3_position_controller joint_state_controller"/>
+
+    <node name = "ScaraFKin" pkg="rbe500_scara_kinematics" type="forwardkinematics.py"/>
+    <node name = "ScaraInverseKin" pkg="rbe500_scara_kinematics" type="inverseKinematics.py"/>
+    <node name = "P2App" pkg="rbe500_scara_control" type="ProjectP2ControllerUI.py"/>
+
+
+</launch>
