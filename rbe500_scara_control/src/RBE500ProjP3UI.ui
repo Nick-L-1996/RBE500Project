@@ -33,11 +33,16 @@
    <widget class="QLabel" name="CurrentZVelLBL">
     <property name="geometry">
      <rect>
-      <x>1460</x>
-      <y>410</y>
-      <width>211</width>
+      <x>1310</x>
+      <y>370</y>
+      <width>401</width>
       <height>16</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>Current Z Velocity: 0 m</string>
@@ -56,11 +61,16 @@
    <widget class="QLabel" name="DesZLBL">
     <property name="geometry">
      <rect>
-      <x>1430</x>
+      <x>1350</x>
       <y>570</y>
-      <width>151</width>
+      <width>221</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>Desired Z Position</string>
@@ -69,11 +79,16 @@
    <widget class="QPushButton" name="MoveBTN">
     <property name="geometry">
      <rect>
-      <x>1490</x>
+      <x>1390</x>
       <y>700</y>
-      <width>141</width>
-      <height>31</height>
+      <width>241</width>
+      <height>91</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>Move Robot</string>
@@ -82,11 +97,16 @@
    <widget class="QPushButton" name="StopPlotting">
     <property name="geometry">
      <rect>
-      <x>1490</x>
-      <y>730</y>
-      <width>141</width>
-      <height>31</height>
+      <x>1390</x>
+      <y>800</y>
+      <width>241</width>
+      <height>91</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>Stop Plotting</string>
@@ -175,11 +195,16 @@
    <widget class="QLabel" name="DesYLBL">
     <property name="geometry">
      <rect>
-      <x>1430</x>
+      <x>1350</x>
       <y>540</y>
-      <width>151</width>
+      <width>221</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>Desired Y Position</string>
@@ -188,11 +213,16 @@
    <widget class="QLabel" name="DesXLBL">
     <property name="geometry">
      <rect>
-      <x>1430</x>
+      <x>1350</x>
       <y>510</y>
-      <width>151</width>
+      <width>231</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>Desired X Position</string>
@@ -251,11 +281,16 @@
    <widget class="QLabel" name="DesXLBL_2">
     <property name="geometry">
      <rect>
-      <x>1430</x>
+      <x>1350</x>
       <y>600</y>
-      <width>151</width>
+      <width>231</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>Desired X Velocity</string>
@@ -264,11 +299,16 @@
    <widget class="QLabel" name="DesXLBL_3">
     <property name="geometry">
      <rect>
-      <x>1430</x>
+      <x>1350</x>
       <y>630</y>
-      <width>151</width>
+      <width>231</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>Desired Y Velocity</string>
@@ -277,11 +317,16 @@
    <widget class="QLabel" name="DesXLBL_4">
     <property name="geometry">
      <rect>
-      <x>1430</x>
+      <x>1350</x>
       <y>660</y>
-      <width>151</width>
+      <width>231</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>Desired Z Velocity</string>
@@ -290,11 +335,16 @@
    <widget class="QLabel" name="CurrentYVelLBL">
     <property name="geometry">
      <rect>
-      <x>1460</x>
-      <y>380</y>
-      <width>211</width>
+      <x>1310</x>
+      <y>340</y>
+      <width>381</width>
       <height>16</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>Current Y Velocity: 0 m</string>
@@ -303,11 +353,16 @@
    <widget class="QLabel" name="CurrentXVelLBL">
     <property name="geometry">
      <rect>
-      <x>1460</x>
-      <y>350</y>
-      <width>211</width>
+      <x>1310</x>
+      <y>310</y>
+      <width>371</width>
       <height>16</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>Current X Velocity: 0 m</string>
@@ -316,11 +371,16 @@
    <widget class="QLabel" name="CurrentZPosLBL">
     <property name="geometry">
      <rect>
-      <x>1460</x>
-      <y>320</y>
-      <width>211</width>
+      <x>1310</x>
+      <y>280</y>
+      <width>381</width>
       <height>16</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>Current Z Position: 0 m</string>
@@ -329,11 +389,16 @@
    <widget class="QLabel" name="CurrentYPosLBL">
     <property name="geometry">
      <rect>
-      <x>1460</x>
-      <y>290</y>
-      <width>211</width>
+      <x>1310</x>
+      <y>250</y>
+      <width>371</width>
       <height>16</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>Current Y Position: 0 m</string>
@@ -342,11 +407,16 @@
    <widget class="QLabel" name="CurrentXPosLBL">
     <property name="geometry">
      <rect>
-      <x>1460</x>
-      <y>260</y>
-      <width>211</width>
-      <height>16</height>
+      <x>1310</x>
+      <y>220</y>
+      <width>351</width>
+      <height>20</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>Current X Position: 0 m</string>
