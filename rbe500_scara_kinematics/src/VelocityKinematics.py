@@ -18,6 +18,7 @@ class velocityKinematics:
     def server(self):
         serviceInverseKinVel = rospy.Service("ScaraIKVel", inverseVelkinService, self.inverseVelKin)
         serviceForwardKinVel = rospy.Service("ScaraFKVel", forwardVelkinService, self.forwardVelKin)
+        print("Services Started")
 
     def updateRobotState(self, data):
         self.Q1 = data.position[2]
@@ -27,15 +28,22 @@ class velocityKinematics:
     def inverseVelKin(self, data):
         linJac, angJac = self.CalcJacobian(self.Q1, self.Q2, self.Q3)
         linJacInv = np.linalg.inv(linJac)
-        zeta = np.array[[data.x], [data.y], data.z]
+        zeta = np.array([[data.x], [data.y], [data.z]])
         JointVel = linJacInv*zeta
+        print("Did Inverse Kin")
         return inverseVelkinServiceResponse(JointVel[0], JointVel[1], JointVel[2])
 
     def forwardVelKin(self, data):
         linJac, angJac = self.CalcJacobian(self.Q1, self.Q2, self.Q3)
-        qdot = np.array[[data.q1],[data.q2],data.q3]
-        LinVel = linJac*qdot
-        return forwardVelkinServiceResponse(LinVel[0], LinVel[1], LinVel[2])
+        print("Linear Jacobian")
+        print(linJac)
+        qdot = np.array([[data.q1],[data.q2],[data.q3]])
+        print("QDot")
+        print(qdot)
+        LinVel = np.matmul(linJac, qdot)
+        print(LinVel)
+        print("Did forward Kin")
+        return forwardVelkinServiceResponse(float(LinVel[0]), float(LinVel[1]), float(LinVel[2]))
 
     def CalcJacobian(self, q1, q2, q3):
         L1Vertical = 1.4

@@ -7,6 +7,8 @@ from std_msgs.msg import Float64
 from sensor_msgs.msg import JointState
 from rbe500_scara_kinematics.srv import inversekinService, inversekinServiceResponse
 from rbe500_scara_kinematics.srv import forwardkinService, forwardkinServiceResponse
+from rbe500_scara_kinematics.srv import inverseVelkinService, inverseVelkinServiceResponse
+from rbe500_scara_kinematics.srv import forwardVelkinService, forwardVelkinServiceResponse
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 from datetime import datetime
@@ -28,19 +30,31 @@ class P3Gui(QtWidgets.QMainWindow):
         self.currentRobotQ1 = 0
         self.currentRobotQ2 = 0
         self.currentRobotQ3 = 0
+        self.currentRobotQ1Dot = 0
+        self.currentRobotQ2Dot = 0
+        self.currentRobotQ3Dot = 0
         self.times = []
         self.positionsx = []
         self.positionsy = []
         self.positionsz = []
+        self.velocitiesx = []
+        self.velocitiesy = []
+        self.velocitiesz = []
         self.startTime = datetime.now()
         self.MoveBTN.clicked.connect(self.sendZPos)
         self.StopPlotting.clicked.connect(self.stopPlot)
         self.XPlot = PlotCanvas(parent=self.frameXPos)
         self.YPlot = PlotCanvas(parent=self.frameYPos)
         self.ZPlot = PlotCanvas(parent=self.frameZPos)
+        self.XVelPlot = PlotCanvas(parent=self.frameXVel)
+        self.YVelPlot = PlotCanvas(parent=self.frameYVel)
+        self.ZVelPlot = PlotCanvas(parent=self.frameZVel)
         self.DesiredXPos = 0
         self.DesiredYPos = 0
         self.DesiredZPos = 0
+        self.DesiredXVel = 0
+        self.DesiredYVel = 0
+        self.DesiredZVel = 0
 
 
     def sendZPos(self):
@@ -68,27 +82,42 @@ class P3Gui(QtWidgets.QMainWindow):
         self.positionsx = []
         self.positionsy = []
         self.positionsz = []
+        self.velocitiesx = []
+        self.velocitiesy = []
+        self.velocitiesz = []
         self.startTime = datetime.now()
         self.DesiredXPos = xPos
         self.DesiredYPos = yPos
         self.DesiredZPos = zPos
+        print("Published Positions")
         self.J1PosPub.publish(resp1.q1)
         self.J2PosPub.publish(resp1.q2)
         self.J3PosPub.publish(resp1.q3)
         self.XPlot.plotPos(self.times, self.positionsx, self.DesiredXPos, "X")
         self.YPlot.plotPos(self.times, self.positionsy, self.DesiredYPos, "Y")
         self.ZPlot.plotPos(self.times, self.positionsz, self.DesiredZPos, "Z")
+        self.XVelPlot.plotVel(self.times, self.velocitiesx, self.DesiredXVel, "X")
+        self.YVelPlot.plotVel(self.times, self.velocitiesy, self.DesiredYVel, "Y")
+        self.ZVelPlot.plotVel(self.times, self.velocitiesz, self.DesiredZVel, "Z")
         self.runPlot = True
 
     def updateRobotState(self, data):
         self.currentRobotQ1 = data.position[2]
         self.currentRobotQ2 = data.position[1]
         self.currentRobotQ3 = data.position[0]
+        self.currentRobotQ1Dot = data.velocity[2]
+        self.currentRobotQ2Dot = data.velocity[1]
+        self.currentRobotQ3Dot = data.velocity[0]
         sendFK = rospy.ServiceProxy('ScaraFK', forwardkinService)
         resp1 = sendFK(self.currentRobotQ1, self.currentRobotQ2, self.currentRobotQ3)
+        sendFKVel = rospy.ServiceProxy('ScaraFKVel', forwardVelkinService)
+        resp2 = sendFKVel(self.currentRobotQ1Dot, self.currentRobotQ2Dot, self.currentRobotQ3Dot)
         self.CurrentXPosLBL.setText("Current X Position: " + str(round(resp1.x, 2)) + "m")
         self.CurrentYPosLBL.setText("Current Y Position: " + str(round(resp1.y, 2)) + "m")
         self.CurrentZPosLBL.setText("Current Z Position: " + str(round(resp1.z, 2)) + "m")
+        self.CurrentXVelLBL.setText("Current X Velocity: " + str(round(resp2.x, 2)) + "m/s")
+        self.CurrentYVelLBL.setText("Current Y Velocity: " + str(round(resp2.y, 2)) + "m/s")
+        self.CurrentZVelLBL.setText("Current Z Velocity: " + str(round(resp2.z, 2)) + "m/s")
         if self.runPlot:
             timenow = datetime.now()-self.startTime
             timenow = timenow.total_seconds()
@@ -96,9 +125,15 @@ class P3Gui(QtWidgets.QMainWindow):
             self.positionsx.append(resp1.x)
             self.positionsy.append(resp1.y)
             self.positionsz.append(resp1.z)
+            self.velocitiesx.append(resp2.x)
+            self.velocitiesy.append(resp2.y)
+            self.velocitiesz.append(resp2.z)
             self.XPlot.plotPos(self.times, self.positionsx, self.DesiredXPos, "X")
             self.YPlot.plotPos(self.times, self.positionsy, self.DesiredYPos, "Y")
             self.ZPlot.plotPos(self.times, self.positionsz, self.DesiredZPos, "Z")
+            self.XVelPlot.plotVel(self.times, self.velocitiesx, self.DesiredXVel, "X")
+            self.YVelPlot.plotVel(self.times, self.velocitiesy, self.DesiredYVel, "Y")
+            self.ZVelPlot.plotVel(self.times, self.velocitiesz, self.DesiredZVel, "Z")
 
     def stopPlot(self):
         self.runPlot=False
