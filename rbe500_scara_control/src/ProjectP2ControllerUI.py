@@ -9,8 +9,6 @@ from rbe500_scara_kinematics.srv import inversekinService, inversekinServiceResp
 from rbe500_scara_kinematics.srv import forwardkinService, forwardkinServiceResponse
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
-import matplotlib
-from PyQt5.QtCore import QThread, pyqtSignal
 from datetime import datetime
 import numpy as np
 designerFile = "/media/nick/LinuxStorage/Documents/RBE500/catkin_ws/src/RBE500Project/rbe500_scara_control/src/RBE500ProjP2UI.ui"

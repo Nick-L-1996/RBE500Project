@@ -58,9 +58,11 @@ add_service_files(
    FILES
    forwardkinService.srv
    inversekinService.srv
+   forwardVelkinService.srv
+   inverseVelkinService.srv
  )
 
-## Generate actions in the 'action' folder
+## Generate actions in the 'a ction' folder
 # add_action_files(
 #   FILES
 #   Action1.action
