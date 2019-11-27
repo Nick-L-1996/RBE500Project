@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import rospy
 import numpy as np
 from std_msgs.msg import Float64
@@ -68,5 +69,6 @@ class velocityKinematics:
 if __name__ == '__main__':
     rospy.init_node('VelocityKin')
     rospy.sleep(1)
+    velKin = velocityKinematics()
     while not rospy.is_shutdown():
         pass
