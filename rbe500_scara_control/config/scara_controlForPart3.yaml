@@ -1,0 +1,19 @@
+scara:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 25
+
+  # Trajectory ---------------------------------------
+  traj_controller:
+    type: effort_controllers/JointTrajectoryController
+    joints:
+      - baseToJOne
+      - JTwoToJThree
+      - JFiveToJSix
+    gains:
+      baseToJOne: {p: 3000, i: 0.01, d: 15, i_clamp: 200}
+      JTwoToJThree: {p: 800, i: 0.01, d: 15, i_clamp: 200}
+      JFiveToJSix: {p: 30.0, i: 100, d: 10.0, i_clamp: 15}
+
+    state_publish_rate: 25

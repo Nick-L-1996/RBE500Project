@@ -9,10 +9,6 @@ from rbe500_scara_kinematics.srv import forwardVelkinService, forwardVelkinServi
 
 class velocityKinematics:
     def __init__(self):
-        self.jointSubscriber = rospy.Subscriber('scara/joint_states', JointState, self.updateRobotState, queue_size=1)
-        self.Q1 = 0
-        self.Q2 = 0
-        self.Q3 = 0
         self.server()
 
     def server(self):
@@ -20,34 +16,32 @@ class velocityKinematics:
         serviceForwardKinVel = rospy.Service("ScaraFKVel", forwardVelkinService, self.forwardVelKin)
         print("Services Started")
 
-    def updateRobotState(self, data):
-        self.Q1 = data.position[2]
-        self.Q2 = data.position[1]
-        self.Q3 = data.position[0]
+
 
     def inverseVelKin(self, data):
-        linJac, angJac = self.CalcJacobian(self.Q1, self.Q2, self.Q3)
+        linJac, angJac = self.CalcJacobian(data.q1, data.q2, data.q3)
         linJacInv = np.linalg.inv(linJac)
         zeta = np.array([[data.x], [data.y], [data.z]])
-        JointVel = linJacInv*zeta
+        JointVel = np.matmul(linJacInv, zeta)
         print("Did Inverse Kin")
-        return inverseVelkinServiceResponse(JointVel[0], JointVel[1], JointVel[2])
+        return inverseVelkinServiceResponse(float(JointVel[0]), float(JointVel[1]), float(JointVel[2]))
+
 
     def forwardVelKin(self, data):
-        linJac, angJac = self.CalcJacobian(self.Q1, self.Q2, self.Q3)
+        linJac, angJac = self.CalcJacobian(data.q1, data.q2, data.q3)
         print("Linear Jacobian")
         print(linJac)
-        qdot = np.array([[data.q1],[data.q2],[data.q3]])
+        qdot = np.array([[data.q1dot],[data.q2dot],[data.q3dot]])
         print("QDot")
         print(qdot)
         LinVel = np.matmul(linJac, qdot)
         print(LinVel)
         print("Did forward Kin")
         return forwardVelkinServiceResponse(float(LinVel[0]), float(LinVel[1]), float(LinVel[2]))
-
+        #return forwardVelkinServiceResponse(0,0,0)
     def CalcJacobian(self, q1, q2, q3):
         L1Vertical = 1.4
-        L1Horizontal = 1
+        L1Horizontal = 1.4
         L2 = 1.35
         L3 = 0.4
         item11 = -L2*np.sin(q1+q2)-L1Horizontal*np.sin(q1)
