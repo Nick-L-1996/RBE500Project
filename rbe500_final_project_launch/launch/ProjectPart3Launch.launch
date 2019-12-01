@@ -20,7 +20,7 @@
     <node name = "ScaraFKin" pkg="rbe500_scara_kinematics" type="forwardkinematics.py"/>
     <node name = "ScaraInverseKin" pkg="rbe500_scara_kinematics" type="inverseKinematics.py"/>
     <node name = "ScaraVelocityKin" pkg="rbe500_scara_kinematics" type="VelocityKinematics.py"/>
-   <!-- <node name = "P3App" pkg="rbe500_scara_control" type="ProjectP3ControllerUI.py"/>-->
+    <node name = "P3App" pkg="rbe500_scara_control" type="ProjectP3ControllerUI.py"/>
 
 
 </launch>
