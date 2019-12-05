@@ -56,7 +56,7 @@
     <link name="LinkTwo">
         <visual>
             <geometry>
-                <cylinder length="1" radius="0.2"/>
+                <cylinder length="1.4" radius="0.2"/>
             </geometry>
             <origin rpy="0 1.57075 0" xyz="0.3 0 1.2"></origin>
         </visual>
@@ -72,7 +72,7 @@
     <joint name="JOneToJTwo" type="fixed">
         <parent link="LinkOne"></parent>
         <child link="LinkTwo"></child>
-        <origin xyz="0 0 0"></origin>
+        <origin xyz="0.2 0 0"></origin>
 
     </joint>
 
@@ -85,7 +85,7 @@
         </visual>
         <inertial>
             <origin xyz="0 0 1" rpy="0 0 0"/>
-            <mass value="1"/>
+            <mass value=".01"/>
             <inertia
                     ixx="1.0" ixy="0.0" ixz="0.0"
                     iyy="1.0" iyz="0.0"
@@ -97,7 +97,7 @@
         <limit effort="1000.0" lower="-2.0" upper="2" velocity="0.5"/>
         <parent link="LinkTwo"></parent>
         <child link="LinkThree"></child>
-        <origin xyz="1 0 1.4"></origin>
+        <origin xyz="1.2 0 1.4"></origin>
         <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
     <link name="LinkFour">
@@ -132,7 +132,7 @@
         </visual>
         <inertial>
             <origin xyz="0 0 1" rpy="0 0 0"/>
-            <mass value="1"/>
+            <mass value=".01"/>
             <inertia
                     ixx="1.0" ixy="0.0" ixz="0.0"
                     iyy="1.0" iyz="0.0"
@@ -155,7 +155,7 @@
         </visual>
         <inertial>
             <origin xyz="0 0 1" rpy="0 0 0"/>
-            <mass value="1"/>
+            <mass value=".01"/>
             <inertia
                     ixx="1.0" ixy="0.0" ixz="0.0"
                     iyy="1.0" iyz="0.0"

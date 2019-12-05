@@ -1,6 +1,9 @@
 float64 q1
 float64 q2
 float64 q3
+float64 q1dot
+float64 q2dot
+float64 q3dot
 ---
 float64 x
 float64 y

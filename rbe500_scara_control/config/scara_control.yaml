@@ -2,20 +2,20 @@ scara:
   # Publish all joint states -----------------------------------
   joint_state_controller:
     type: joint_state_controller/JointStateController
-    publish_rate: 50  
+    publish_rate: 25
 
   # Position Controllers ---------------------------------------
   joint1_position_controller:
     type: effort_controllers/JointPositionController
     joint: baseToJOne
-    pid: {p: 400.0, i: 0.01, d: 400.0}
+    pid: {p: 400.0, i: 0.01, d: 40.0}
 
   joint2_position_controller:
     type: effort_controllers/JointPositionController
     joint: JTwoToJThree
-    pid: {p: 400.0, i: 0.01, d: 1000.0}
+    pid: {p: 400.0, i: 0.01, d: 100.0}
 
   joint3_position_controller:
     type: effort_controllers/JointPositionController
     joint: JFiveToJSix
-    pid: {p: 3000.0, i: 100, d: 1000.0}
+    pid: {p: 30.0, i: 100, d: 10.0}
