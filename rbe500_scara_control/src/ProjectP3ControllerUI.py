@@ -21,16 +21,15 @@ class P3Gui(QtWidgets.QMainWindow):
         super(P3Gui, self).__init__()
         self.ui = uic.loadUi(designerFile, self)
         self.runPlot = False
+        #trajectory controller publisher
         self.TrajControl = rospy.Publisher('/scara/traj_controller/command', JointTrajectory,  queue_size=1)
-        #self.J1PosPub = rospy.Publisher('/scara/joint1_position_controller/command', Float64, queue_size=1)
-        #self.J2PosPub = rospy.Publisher('/scara/joint2_position_controller/command', Float64, queue_size=1)
-        #self.J3PosPub = rospy.Publisher('/scara/joint3_position_controller/command', Float64, queue_size=1)
         self.jointSubscriber = rospy.Subscriber('scara/joint_states', JointState, self.updateRobotState, queue_size=100)
         serviceInverseKin = rospy.wait_for_service('ScaraIK')
         serviceForwardKin = rospy.wait_for_service('ScaraFK')
         serviceInverseKinVel = rospy.wait_for_service('ScaraIKVel')
         serviceForwardKinVel = rospy.wait_for_service('ScaraFKVel')
 
+        #variables for keeping track of robot state and past states for plotting
         self.currentRobotQ1 = 0
         self.currentRobotQ2 = 0
         self.currentRobotQ3 = 0
@@ -51,20 +50,28 @@ class P3Gui(QtWidgets.QMainWindow):
         self.velocitiesy = []
         self.velocitiesz = []
         self.startTime = datetime.now()
+
+        #attaches functions to buttons
         self.MoveBTN.clicked.connect(self.sendTraj)
         self.StopPlotting.clicked.connect(self.stopPlot)
+        #Create all plots
+        #position plots
         self.XPlot = PlotCanvas(parent=self.frameXPos)
         self.YPlot = PlotCanvas(parent=self.frameYPos)
         self.ZPlot = PlotCanvas(parent=self.frameZPos)
+        #velocity plots
         self.XVelPlot = PlotCanvas(parent=self.frameXVel)
         self.YVelPlot = PlotCanvas(parent=self.frameYVel)
         self.ZVelPlot = PlotCanvas(parent=self.frameZVel)
+        #initial values for desired state
         self.DesiredXPos = 0
         self.DesiredYPos = 0
         self.DesiredZPos = 0
         self.DesiredXVel = 0
         self.DesiredYVel = 0
         self.DesiredZVel = 0
+        #the trajectory is calculated in a seperate thread to prevent
+        #the gui from becoming unresponsive
         self.trajCalcThread = CalculateTrajectoryThread(self)
         self.trajCalcThread.signal.connect(self.plotDataStart)
 
@@ -74,22 +81,24 @@ class P3Gui(QtWidgets.QMainWindow):
 
 
     def updateRobotState(self, data):
+        #when a new robot state is sent grom gazebo
+        #This function updates the stored state of the robot
+        #and updates the labels in the gui
         self.currentRobotQ1 = round(data.position[2], 2)
         self.currentRobotQ2 = round(data.position[1], 2)
         self.currentRobotQ3 = round(data.position[0], 2)
         self.currentRobotQ1Dot = round(data.velocity[2], 2)
         self.currentRobotQ2Dot = round(data.velocity[1], 2)
         self.currentRobotQ3Dot = round(data.velocity[0], 2)
+        #finds forward kinematics for plotting and labels
         sendFK = rospy.ServiceProxy('ScaraFK', forwardkinService)
         resp1 = sendFK(self.currentRobotQ1, self.currentRobotQ2, self.currentRobotQ3)
         self.CurrentXPosLBL.setText("Current X Position: " + str(round(resp1.x, 2)) + "m")
         self.CurrentYPosLBL.setText("Current Y Position: " + str(round(resp1.y, 2)) + "m")
         self.CurrentZPosLBL.setText("Current Z Position: " + str(round(resp1.z, 2)) + "m")
-        #self.CurrentXVelLBL.setText("Current X Velocity: " + str(round(resp2.x, 2)) + "m/s")
-        #self.CurrentYVelLBL.setText("Current Y Velocity: " + str(round(resp2.y, 2)) + "m/s")
-        #self.CurrentZVelLBL.setText("Current Z Velocity: " + str(round(resp2.z, 2)) + "m/s")
-        if self.runPlot:
 
+        if self.runPlot:
+            #if the run plot is active it will store the positions and velocities of each joint
             timenow = datetime.now()-self.startTime
             timenow = timenow.total_seconds()
             self.times.append(float(timenow))
@@ -105,6 +114,9 @@ class P3Gui(QtWidgets.QMainWindow):
 
 
     def stopPlot(self):
+        #when the stop button is pressed data stops being collected
+        #and it will generate all of the plots
+        #doing forward velocitiy kinematics as needed
         if(self.runPlot):
             self.runPlot = False
             self.XPlot.plotPos(self.times, self.positionsx, self.DesiredXPos, "X")
@@ -125,12 +137,15 @@ class P3Gui(QtWidgets.QMainWindow):
             self.ZVelPlot.plotVel(self.times, self.velocitiesz, self.DesiredZVel, "Z")
 
     def plotDataStart(self, results):
-
+        #this is used as a software interrupt callback from the
+        #trajectory thread. This starts plotting before the robot is told
+        #to move
         self.runPlot = True
         print("Refreshing Plots")
 
 class PlotCanvas(FigureCanvas):
 
+    #class for the graphs
     def __init__(self, parent=None, width=6, height=4, dpi=100):
         fig = Figure(figsize=(width, height), dpi=dpi)
         self.axes = fig.add_subplot(111)
@@ -164,6 +179,7 @@ class PlotCanvas(FigureCanvas):
         self.axes.set_title("Plot of " + axis + " Velocity")
         self.draw()
 
+#This calculates the trajectory for the robot in a seperate thread
 class CalculateTrajectoryThread(QThread):
     signal = pyqtSignal('PyQt_PyObject')
 
@@ -178,6 +194,7 @@ class CalculateTrajectoryThread(QThread):
         xVel = self.gui.XVelEntry.text()
         yVel = self.gui.YVelEntry.text()
         zVel = self.gui.ZVelEntry.text()
+        #verifies all text entries are numbers
         try:
             xPos = float(xPos)
         except Exception as e:
@@ -216,22 +233,29 @@ class CalculateTrajectoryThread(QThread):
         self.gui.DesiredYVel = yVel
         self.gui.DesiredZVel = zVel
 
+
         sendFK = rospy.ServiceProxy('ScaraFK', forwardkinService)
         resp1 = sendFK(self.gui.currentRobotQ1, self.gui.currentRobotQ2, self.gui.currentRobotQ3)
 
+        #Start creating trajectory message
         trajToBeSent = JointTrajectory()
         trajToBeSent.joint_names.append("baseToJOne")
         trajToBeSent.joint_names.append("JTwoToJThree")
         trajToBeSent.joint_names.append("JFiveToJSix")
-        if self.verifyTraj(resp1.x, resp1.y, resp1.z, xPos, yPos, zPos):
 
+        #verifies the 2 positions dont result in a
+        #straight line trajectory through the unreachable
+        #areas of the robot
+        if self.verifyTraj(resp1.x, resp1.y, resp1.z, xPos, yPos, zPos):
+            #if the trajectory is possible
             #Do Linear Trajectory
             sendFKVel = rospy.ServiceProxy('ScaraFKVel', forwardVelkinService)
             resp2 = sendFKVel(self.gui.currentRobotQ1, self.gui.currentRobotQ2, self.gui.currentRobotQ3, self.gui.currentRobotQ1Dot, self.gui.currentRobotQ2Dot, self.gui.currentRobotQ3Dot)
             trajToBeSent.points = self.createTraj(resp1.x, resp1.y, resp1.z, xPos, yPos, zPos,resp2.x, resp2.y, resp2.z, xVel, yVel, zVel)
             print(trajToBeSent)
         else:
-            #do Setpoint
+            #if it is not possible
+            #do Setpoint movement
             sendIK = rospy.ServiceProxy('ScaraIK', inversekinService)
             resp2 = sendIK(xPos, yPos, zPos, 0, 0, 0, 1)
             setPoint = JointTrajectoryPoint()
@@ -262,13 +286,11 @@ class CalculateTrajectoryThread(QThread):
         self.signal.emit(1)
         rospy.sleep(1)
         self.gui.TrajControl.publish(trajToBeSent)
-        #self.gui.J1PosPub.publish(resp1.q1)
-        #self.gui.J2PosPub.publish(resp1.q2)
-        #self.gui.J3PosPub.publish(resp1.q3)
 
 
 
-
+#verifies the 2 positions dont result in a straight line trajectory
+    #in unreachable areas
     def verifyTraj(self, xCur, yCur, zCur, xDes, yDes, zDes):
         numSteps = 1000
         maxCloseness = 1.5
@@ -286,9 +308,10 @@ class CalculateTrajectoryThread(QThread):
         print("Traj Possible")
         return True
 
+#generates a straight line trajectory
     def createTraj(self, xCur, yCur, zCur, xDes, yDes, zDes,xVelC, yVelC, zVelC, xVel, yVel, zVel):
         points = []
-        numPoints = 100
+        numPoints = 100 #makes 100 points to follow
         ChangeX = xDes - xCur
         ChangeY = yDes - yCur
         ChangeZ = zDes - zCur
@@ -352,16 +375,8 @@ class CalculateTrajectoryThread(QThread):
         curSecs = int((curTime - curNanoSecs)/1000000000)
         setPoint.time_from_start.secs = curSecs
         setPoint.time_from_start.nsecs = curNanoSecs
-
-
         points.append(setPoint)
         return points
-
-
-    #lower="0.0" upper="6.2" J1
-    #lower="-2.0" upper="2" J2
-    #lower="0.0" upper="1" J3
-
 
 if __name__ == '__main__':
     rospy.init_node('Part3Controller')
